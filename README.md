@@ -20,7 +20,7 @@ Run the `composer` image:
 ```sh
 docker run --rm --interactive --tty \
     --volume $PWD:/app \
-    composer install
+    centualr/composer install
 ```
 
 You can mount the Composer home directory from your host inside the Container to share caching and configuration files:
@@ -29,7 +29,7 @@ You can mount the Composer home directory from your host inside the Container to
 docker run --rm --interactive --tty \
     --volume $PWD:/app \
     --volume $COMPOSER_HOME:/tmp \
-    composer install
+    centualr/composer install
 ```
 
 By default, Composer runs as root inside the container. This can lead to permission issues on your host filesystem. You can run Composer as your local user:
@@ -48,7 +48,7 @@ docker run --rm --interactive --tty \
     --volume $PWD:/app \
     --volume $SSH_AUTH_SOCK:/ssh-auth.sock \
     --env SSH_AUTH_SOCK=/ssh-auth.sock \
-    composer install
+    centualr/composer install
 ```
 
 When combining the use of private repositories with running Composer as another (local) user, you might run into non-existant user errors. To work around this, simply mount the host passwd and group files (read-only) into the container:
@@ -61,7 +61,7 @@ docker run --rm --interactive --tty \
     --volume /etc/group:/etc/group:ro \
     --user $(id -u):$(id -g) \
     --env SSH_AUTH_SOCK=/ssh-auth.sock \
-    composer install
+    centualr/composer install
 ```
 
 ## Suggestions
@@ -77,7 +77,7 @@ Sometimes dependencies or Composer [scripts](https://getcomposer.org/doc/article
 	```sh
 	docker run --rm --interactive --tty \
 	    --volume $PWD:/app \
-	    composer install --ignore-platform-reqs --no-scripts
+	    centualr/composer install --ignore-platform-reqs --no-scripts
 	```
 
 -	Create your own image (possibly by extending `FROM composer`).
@@ -98,7 +98,7 @@ composer () {
         --volume /etc/passwd:/etc/passwd:ro \
         --volume /etc/group:/etc/group:ro \
         --volume $(pwd):/app \
-        composer "$@"
+        centualr/composer "$@"
 }
 ```
 
